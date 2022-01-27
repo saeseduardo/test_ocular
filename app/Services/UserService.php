@@ -17,7 +17,7 @@ class UserService
         ]);
 
         return [
-            'user' => $user,
+            'username' => $user,
             'password' => $data['password']
         ];
     }

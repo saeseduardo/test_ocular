@@ -23,18 +23,9 @@ class AuthController extends Controller
         try {
             $newUser = $this->userService->register($request->all());
 
-            $userData = [
-                'username' => $newUser['user']['user_name'],
-                'password' => $newUser['password'],
-            ];
+            $user = $this->userService->login($newUser);
 
-            $user = $this->userService->login($userData);
-
-            return response()->json([
-                'token' => $user['token'],
-                'type_token' => 'bearer',
-                'user' => $user['user']
-            ], 201);
+            return $this->resopnseCreated('User created!', $user);
         } catch (\Exception $e) {
             throw new HttpException(500, $e->getMessage());
         }
@@ -45,11 +36,7 @@ class AuthController extends Controller
         try {
             $user = $this->userService->login($request->all());
 
-            return response()->json([
-                'token' => $user['token'],
-                'type_token' => 'bearer',
-                'user' => $user['user']
-            ], 200);
+            return $this->resopnseOk('User logged in!', $user);
         } catch (\Exception $e) {
             throw new HttpException(500, $e->getMessage());
         }
