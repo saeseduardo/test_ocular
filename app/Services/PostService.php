@@ -25,8 +25,15 @@ class PostService
         return Post::with(['category', 'user'])->orderBy('created_at', 'DESC')->paginate(5);
     }
 
-    public function update()
+    public function update($data, $post)
     {
+        $post->update([
+            'title' => $data['title'],
+            'conetent' => $data['conetent'],
+            'category_id' => $data['category_id']
+        ]);
+
+        return $post->load('category', 'user');
     }
 
     public function delete($category)

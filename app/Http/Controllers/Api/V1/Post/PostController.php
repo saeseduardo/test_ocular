@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Post;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostCreateRequest;
+use App\Models\Post;
 use App\Services\PostService;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -31,6 +32,16 @@ class PostController extends Controller
         try {
             $post = $this->postService->list();
             return $this->resopnseOk('List of post!', $post);
+        } catch (\Exception $e) {
+            throw new HttpException(500, $e->getMessage());
+        }
+    }
+
+    public function update(PostCreateRequest $request, Post $post)
+    {
+        try {
+            $postUpdated = $this->postService->update($request, $post);
+            return $this->resopnseOk('Post edited!', $postUpdated);
         } catch (\Exception $e) {
             throw new HttpException(500, $e->getMessage());
         }
