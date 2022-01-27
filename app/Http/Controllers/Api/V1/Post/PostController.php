@@ -20,8 +20,8 @@ class PostController extends Controller
     public function create(PostCreateRequest $request)
     {
         try {
-            $post = $this->postService->create($request);
-            return $this->resopnseCreated('Post created!', $post);
+            return $this->postService->create($request);
+           // return $this->resopnseCreated('Post created!', $post);
         } catch (\Exception $e) {
             throw new HttpException(500, $e->getMessage());
         }
@@ -42,6 +42,16 @@ class PostController extends Controller
         try {
             $postUpdated = $this->postService->update($request, $post);
             return $this->resopnseOk('Post edited!', $postUpdated);
+        } catch (\Exception $e) {
+            throw new HttpException(500, $e->getMessage());
+        }
+    }
+
+    public function delete(Post $post)
+    {
+        try {
+            $post = $this->postService->delete($post);
+            return $this->resopnseOk('Post deleted!', $post);
         } catch (\Exception $e) {
             throw new HttpException(500, $e->getMessage());
         }

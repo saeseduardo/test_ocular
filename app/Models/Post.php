@@ -21,4 +21,9 @@ class Post extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function photo()
+    {
+        return $this->hasOne('App\Models\Photo');
+    }
 }

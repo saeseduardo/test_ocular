@@ -26,6 +26,7 @@ class PostCreateRequest extends FormRequest
         return [
             'title' => 'required|string|max:64',
             'content' => 'required|string|max:150',
+            'photo' => 'image',
             'category_id' => 'required',
         ];
     }

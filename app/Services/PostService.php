@@ -2,12 +2,18 @@
 
 namespace App\Services;
 
-use App\Models\Category;
+use App\Models\Photo;
 use App\Models\Post;
-use App\Models\User;
 
 class PostService
 {
+    protected $photoService;
+
+    public function __construct(PhotoService $photoService)
+    {
+        $this->photoService = $photoService;
+    }
+
     public function create($data)
     {
         $post = new Post;
@@ -17,12 +23,21 @@ class PostService
         $post->user_id = auth()->user()->id;
         $post->save();
 
-        return $post->load('category', 'user');
+        $file = $this->photoService->upload($data['photo'], $post);
+
+        $data = [
+            'url' => $file->dirname . '/' . $file->basename,
+            'post_id' => $post->id
+        ];
+
+        $this->photoService->create($data);
+
+        return $post->load('category', 'user', 'photo');
     }
 
     public function list()
     {
-        return Post::with(['category', 'user'])->orderBy('created_at', 'DESC')->paginate(5);
+        return Post::with(['category', 'user', 'photo'])->orderBy('created_at', 'DESC')->paginate(5);
     }
 
     public function update($data, $post)
@@ -33,10 +48,12 @@ class PostService
             'category_id' => $data['category_id']
         ]);
 
-        return $post->load('category', 'user');
+        return $post->load('category', 'user', 'photo');
     }
 
-    public function delete($category)
+    public function delete($post)
     {
+        $post->delete();
+        return $this->list();
     }
 }
