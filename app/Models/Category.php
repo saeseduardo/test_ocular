@@ -10,4 +10,9 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+
+    public function post()
+    {
+        return $this->hasOne('App\Models\Post');
+    }
 }
