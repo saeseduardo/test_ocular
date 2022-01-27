@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class RegisterController extends Controller
+class AuthController extends Controller
 {
     protected $userService;
 
@@ -34,15 +34,24 @@ class RegisterController extends Controller
                 'token' => $user['token'],
                 'type_token' => 'bearer',
                 'user' => $user['user']
-            ], 200);
-            
+            ], 201);
         } catch (\Exception $e) {
             throw new HttpException(500, $e->getMessage());
         }
     }
 
-    protected function guard()
+    public function login(UserLoginRequest $request)
     {
-        return Auth::guard();
+        try {
+            $user = $this->userService->login($request->all());
+
+            return response()->json([
+                'token' => $user['token'],
+                'type_token' => 'bearer',
+                'user' => $user['user']
+            ], 200);
+        } catch (\Exception $e) {
+            throw new HttpException(500, $e->getMessage());
+        }
     }
 }
