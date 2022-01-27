@@ -22,5 +22,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::delete('post/delete/{post}', [PostController::class, 'delete']);
 
         Route::get('like/post/{post}', [LikeController::class, 'add']);
+        Route::delete('like/post/delete/{post}', [LikeController::class, 'delete']);
     });
 });

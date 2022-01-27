@@ -20,13 +20,9 @@ class LikeService
         }
     }
 
-    public function delete($category)
+    public function delete($post)
     {
-        return $category->delete();
-    }
-
-    public function list()
-    {
-        // return Category::select('id', 'name')->get();
+        Like::where('user_id', auth()->user()->id)->where('post_id', $post->id)->delete();
+        return Post::with(['category', 'user', 'photo', 'like', 'like.user'])->where('id', $post->id)->first();
     }
 }

@@ -20,7 +20,17 @@ class LikeController extends Controller
     {
         try {
             $post = $this->likeService->add($post);
-            return $this->resopnseOk('Category deleted!', $post);
+            return $this->resopnseOk('Like added!', $post);
+        } catch (\Exception $e) {
+            throw new HttpException(500, $e->getMessage());
+        }
+    }
+
+    public function delete(Post $post)
+    {
+        try {
+            $post = $this->likeService->delete($post);
+            return $this->resopnseOk('Like deleted!', $post);
         } catch (\Exception $e) {
             throw new HttpException(500, $e->getMessage());
         }
