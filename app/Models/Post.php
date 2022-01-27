@@ -22,9 +22,14 @@ class Post extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function like()
+    public function likes()
     {
         return $this->hasMany('App\Models\Like');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Models\Comment');
     }
 
     public function photo()
