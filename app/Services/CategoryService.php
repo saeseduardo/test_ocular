@@ -15,4 +15,9 @@ class CategoryService
     {
         return $category->delete();
     }
+
+    public function list()
+    {
+        return Category::select('id', 'name')->get();
+    }
 }

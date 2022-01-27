@@ -28,6 +28,16 @@ class Categorycontroller extends Controller
         }
     }
 
+    public function list()
+    {
+        try {
+            $categories = $this->categoryService->list();
+            return $this->resopnseOk('List of category!', $categories);
+        } catch (\Exception $e) {
+            throw new HttpException(500, $e->getMessage());
+        }
+    }
+
     public function delete(Category $category)
     {
         try {
