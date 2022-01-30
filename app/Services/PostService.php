@@ -19,7 +19,7 @@ class PostService
         $post = new Post;
         $post->title = $data['title'];
         $post->content = $data['content'];
-        $post->category_id = $data['category_id'];
+        $post->category_id = $data['category'];
         $post->user_id = auth()->user()->id;
         $post->save();
 
@@ -37,7 +37,12 @@ class PostService
 
     public function list()
     {
-        return Post::with(['category', 'user', 'photo'])->orderBy('created_at', 'DESC')->paginate(5);
+        return Post::with(['category', 'user', 'photo', 'likes', 'likes.user', 'comments', 'comments.user'])->orderBy('created_at', 'DESC')->paginate(5);
+    }
+
+    public function detail($post)
+    {
+        return $post->load('category', 'user', 'photo', 'likes', 'likes.user', 'comments', 'comments.user');
     }
 
     public function update($data, $post)
@@ -48,7 +53,7 @@ class PostService
             'category_id' => $data['category_id']
         ]);
 
-        return $post->load('category', 'user', 'photo');
+        return $post->load('category', 'user', 'photo', 'likes', 'likes.user', 'comments', 'comments.user');
     }
 
     public function delete($post)

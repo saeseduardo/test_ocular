@@ -31,9 +31,8 @@ class Post extends Model
     {
         return $this->hasMany('App\Models\Comment');
     }
-
     public function photo()
     {
-        return $this->belongsTo('App\Models\Photo');
+        return $this->hasOne('App\Models\Photo');
     }
 }

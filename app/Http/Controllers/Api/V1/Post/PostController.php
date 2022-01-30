@@ -37,6 +37,16 @@ class PostController extends Controller
         }
     }
 
+    public function detail(Post $post)
+    {
+        try {
+            $post = $this->postService->detail($post);
+            return $this->resopnseOk('Post deleted!', $post);
+        } catch (\Exception $e) {
+            throw new HttpException(500, $e->getMessage());
+        }
+    }
+
     public function update(PostCreateRequest $request, Post $post)
     {
         try {
