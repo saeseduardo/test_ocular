@@ -36,7 +36,7 @@ class UserService
 
         return  [
             "token" => auth()->user()->createToken(env('PASSPORT_TOKEN'))->accessToken,
-            "user" => auth()->user()
+            "user" => User::with('role')->where('id', auth()->user()->id)->first()
         ];
     }
 }
