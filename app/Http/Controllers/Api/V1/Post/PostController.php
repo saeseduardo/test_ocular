@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PostCreateRequest;
 use App\Models\Post;
 use App\Services\PostService;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class PostController extends Controller
@@ -17,11 +18,11 @@ class PostController extends Controller
         $this->postService = $postService;
     }
 
-    public function create(PostCreateRequest $request)
+    public function create(Request $request)
     {
         try {
-            return $this->postService->create($request);
-           // return $this->resopnseCreated('Post created!', $post);
+            $post = $this->postService->create($request);
+           return $this->resopnseCreated('Post created!', $post);
         } catch (\Exception $e) {
             throw new HttpException(500, $e->getMessage());
         }

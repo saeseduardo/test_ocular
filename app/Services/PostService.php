@@ -50,7 +50,7 @@ class PostService
         $post->update([
             'title' => $data['title'],
             'conetent' => $data['conetent'],
-            'category_id' => $data['category_id']
+            'category_id' => $data['category']
         ]);
 
         return $post->load('category', 'user', 'photo', 'likes', 'likes.user', 'comments', 'comments.user');

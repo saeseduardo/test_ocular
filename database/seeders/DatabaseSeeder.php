@@ -31,5 +31,29 @@ class DatabaseSeeder extends Seeder
             'name' => 'user',
         ]);
 
+        \App\Models\Category::create([
+            'name' => 'science'
+        ]);
+
+        \App\Models\Category::create([
+            'name' => 'development'
+        ]);
+
+        \App\Models\Category::create([
+            'name' => 'food'
+        ]);
+
+        \App\Models\Category::create([
+            'name' => 'sport'
+        ]);
+
+        \App\Models\Category::create([
+            'name' => 'religion'
+        ]);
+
+        \App\Models\Category::create([
+            'name' => 'fashion'
+        ]);
+
     }
 }

@@ -10,10 +10,11 @@ class UserService
     public function register($data)
     {
         $user = User::create([
-            'user_name' => $data['user_name'],
+            'user_name' => $data['username'],
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role_id' => 2
         ]);
 
         return [
