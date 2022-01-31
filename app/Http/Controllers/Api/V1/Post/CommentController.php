@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api\V1\Post;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommentCreateRequest;
 use App\Models\Post;
 use App\Services\CommentService;
-use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CommentController extends Controller
 {
@@ -16,7 +17,7 @@ class CommentController extends Controller
         $this->commentService = $commentService;
     }
 
-    public function add(Request $request, Post $post)
+    public function add(CommentCreateRequest $request, Post $post)
     {
         try {
             $post = $this->commentService->add($post, $request->comment);
