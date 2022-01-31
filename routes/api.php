@@ -1,19 +1,32 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\V1\Auth\AuthController;
+use App\Http\Controllers\Api\V1\Category\CategoryController;
+use App\Http\Controllers\Api\V1\Post\CommentController;
+use App\Http\Controllers\Api\V1\Post\LikeController;
+use App\Http\Controllers\Api\V1\Post\PostController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'v1'], function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::post('category', [CategoryController::class, 'create']);
+        Route::get('category', [CategoryController::class, 'list']);
+        Route::delete('category/delete/{category}', [CategoryController::class, 'delete']);
+
+        Route::post('post', [PostController::class, 'create']);
+        Route::get('posts', [PostController::class, 'list']);
+        Route::post('post/update/{post}', [PostController::class, 'update']);
+        Route::get('post/{post}', [PostController::class, 'detail']);
+        Route::delete('post/delete/{post}', [PostController::class, 'delete']);
+
+        Route::get('like/post/{post}', [LikeController::class, 'add']);
+        Route::delete('like/post/delete/{post}', [LikeController::class, 'delete']);
+
+        Route::post('comment/post/{post}', [CommentController::class, 'add']);
+        Route::delete('comment/post/delete/{post}', [CommentController::class, 'delete']);
+    });
 });
